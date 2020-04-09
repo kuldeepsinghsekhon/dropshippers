@@ -41,12 +41,12 @@ server.use(_.routes());           //Use the routes defined using the router
     })
   );
   server.use(verifyRequest());
-  server.use(async (ctx) => {
+ /* server.use(async (ctx) => {
     await handle(ctx.req, ctx.res);
     ctx.respond = false;
     ctx.res.body = "dfdsfs";
     return
-  });
+  });*/
   server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
   });
