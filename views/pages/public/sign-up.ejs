@@ -1,0 +1,88 @@
+<div class="page_wrapper">
+        <div id="logreg-forms">
+       
+           
+           <form action="#" class="form-signup" method="POST">
+               <div class="social-login">
+                   <button onclick="location.href='/auth/facebook'" class="btn facebook-btn social-btn" type="button"><span><i class="fa fa-facebook"></i> Sign up with Facebook</span> </button>
+               </div>
+               <div class="social-login">
+                   <button onclick="location.href='/auth/twitter'" class="btn google-btn social-btn" type="button"><span><i class="fa fa-twitter"></i> Sign up with twitter</span> </button>
+               </div>
+               
+               <p style="text-align:center">OR</p>
+
+               <input  type="First name"
+               id="name"
+               name="name"
+               class="form-control"
+               placeholder="Enter First Name"
+               value="<%= typeof name != 'undefined' ? name : '' %>"
+                required="" autofocus="">
+                <input  type="name"
+                id="lastname"
+                name="lastname"
+                class="form-control"
+                placeholder="Enter Last Name"
+                value="<%= typeof lastname != 'undefined' ? lastname : '' %>"
+                 required="" autofocus="">
+               <input 
+               type="email"
+               id="email"
+               name="email"
+               class="form-control"
+               value="<%= typeof email != 'undefined' ? email : '' %>"
+               placeholder="Email address" required autofocus="">
+               <input 
+               type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="Create Password"
+            value="<%= typeof password != 'undefined' ? password : '' %>"
+               required autofocus="">
+               <input 
+               type="password"
+               id="password2"
+               name="password2"
+               class="form-control"
+               value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
+               placeholder="Repeat Password" required autofocus="">
+
+               <button class="btn btn-success btn-block" type="submit"><i class="fa fa-user-plus"></i> Sign Up</button>
+               <hr>
+               <a href="/sign-in" class="btn btn-primary btn-block" type="button" id="btn-signup"><i class="fa fa-user-plus"></i> Sign-in</a>
+           </form>
+           <br>
+           
+   </div>
+   
+     </div>
+     <script>
+        $('.form-signup').on('submit',function(event){
+            event.preventDefault();
+           //alert('dfsf')
+           var name=$("#name").val();
+           var lastname=$("#lastname").val();
+           var email=$("#email").val();
+           var password=$("#password").val();
+           var password2=$("#password2").val();
+           var formdata = {name:name,lastname:lastname,email:email,password:password,password2:password2};
+           $.ajax({
+               method:'post',
+               url:"/sign-up",
+               //dataType: "json",
+               data:formdata,
+               success: function (response) {
+                   //console.log(response);
+                   if(response.status=='success'){
+                    var url= '/user/profile';    
+                       //var url= '/validation-form/'+response.data.userid;                   
+                              $(location).attr('href', url);  
+                   }else{
+                       alert(response.message);
+                   }
+               }
+           })
+       });
+        </script>

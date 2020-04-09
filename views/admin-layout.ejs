@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Shopping Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="/vendors/base/vendor.bundle.base.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+ <link rel="stylesheet" href="css/jquery.fileupload.css">
+ <link rel="stylesheet" href="/fonts/font-awesome/css/font-awesome.min.css">
+ <link rel="stylesheet" href="jquery.fileupload-nonscript.css">
+ <link rel="stylesheet" href="jquery.fileupload-ui.css">
+ <link rel="stylesheet" href="jquery.fileupload-ui-nonscript.css">
+ <script src="/js/demo.js"></script>
+ <script src="/js/imagescript.js"></script>
+ <script src="/js/jquery.fileupload-audio.js"></script>
+ <script src="/js/jquery.fileupload-image.js"></script>
+ <script src="/js/jquery.fileupload-process.js"></script>
+ <script src="/js/jquery.fileupload-ui.js"></script>
+ <script src="/js/jquery.fileupload-validate.js"></script>
+ <script src="/js/jquery.fileupload-video.js"></script>
+ <script src="/js/fileupload.js"></script>
+ <script src="/js/iframe-transport.js"></script>
+ <script src="/js/jquery.postmessage-transport.js"></script>
+ <script src="/js/jquery.xdr-transport.js"></script>
+  <!--<link rel="stylesheet" href="/vendors/base/bootstrap.min.css">
+  endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="/images/favicon.png" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/js/imagescript.js"></script>
+<!------- Including CSS File ------>
+<link rel="stylesheet" type="text/css" href="/css/imagestyle.css">
+</head>
+<body>
+        <div class="container-scroller">
+                <!-- partial:partials/_navbar.html -->
+                <% include ./partials/_navbar %>
+             <!-- partial -->
+                <div class="container-fluid page-body-wrapper">
+                  <!-- partial:partials/_sidebar.html -->
+                  <% include ./partials/_sidebar %>
+               <!-- partial -->
+                  <div class="main-panel">
+                        <div class="content-wrapper">
+                        
+                        <%- body %>
+                        </div>
+                  <!-- content-wrapper ends -->
+                    <!-- partial:partials/_footer.html -->
+                    <% include ./partials/_footer %>
+                    <!-- partial -->
+                  </div>
+                  <!-- main-panel ends -->
+                </div>
+                <!-- page-body-wrapper ends -->
+              </div>
+              <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="/vendors/base/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="/vendors/chart.js/Chart.min.js"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="/js/off-canvas.js"></script>
+  <script src="/js/hoverable-collapse.js"></script>
+  <script src="/js/template.js"></script>
+  <script src="/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="/js/dashboard.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script>
+
+   function postItem() {
+    var data = {};
+					data.query = $('#_query').val();
+				
+     $.ajax({
+         type: "POST",
+         url: $("#data-form").prop('action'),
+         timeout: 10000,
+         data: JSON.stringify(data),
+         success: function(data) {
+             //show content
+             $('#result').text(JSON.stringify(data));
+             //console.log(JSON.stringify(data));
+             alert('Success!')
+         },
+         error: function(jqXHR, textStatus, err) {
+             //show error message
+             alert('text status '+textStatus+', err '+err)
+         }
+     });
+ }//postItem()
+ 
+ $("#submit-btn").on('click', function(e) {
+   e.preventDefault();
+     postItem();
+    // alert('fdsf');
+ });
+    
+ </script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>
+
+<script type="text/javascript">
+ var room = 1;
+function education_fields() {
+ 
+    room++;
+    var objTo = document.getElementById('education_fields')
+    var divtest = document.createElement("div");
+	divtest.setAttribute("class", "form-group removeclass"+room);
+	var rdiv = 'removeclass'+room;
+ divtest.innerHTML ='<div class="col-sm-3 nopadding"><div class="form-group"><input type="text" class="form-control" id="attributename" name="attributename" value="" placeholder="Degree"></div> </div> <div class="col-sm-3 nopadding"> <div class="form-group"><div class="input-group"><div class="form-group"><input type="text" class="form-control" id="attributevalues" name="attributevalues" value="" placeholder="attribute|attribute|attribute"></div><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div>';
+    objTo.appendChild(divtest)
+}
+   function remove_education_fields(rid) {
+	   $('.removeclass'+rid).remove();
+   }
+    </script>
+    <script>
+      $(document).ready(function() {
+   /**
+    * for showing edit item popup
+    */
+ 
+   $(document).on('click', "#edit-item", function() {
+     
+     $(this).addClass('edit-item-trigger'); //useful for identifying which trigger was clicked and consequently grab data from the correct row and not the wrong one.
+ 
+     var options = {
+       'backdrop': 'static'
+     };
+     $('#edit-modal').modal(options)
+   })
+ 
+   // on modal show
+   $('#edit-modal').on('show.bs.modal', function() {
+   
+     var el = $(".edit-item-trigger"); // See how its usefull right here? 
+     var row = el.closest(".data-row");
+    // alert(el.attr('class'));
+     // get the data
+     var id = el.data('item-id');
+     var name = row.children(".name").text();
+     name=name.replace(" ","");
+ 
+     // fill the data in the input fields
+     $("#modal-input-id").val(id);
+     $("#modal-input-name").val(name);
+ 
+   })
+ 
+   // on modal hide
+   $('#edit-modal').on('hide.bs.modal', function() {
+     $('.edit-item-trigger').removeClass('edit-item-trigger')
+     $("#edit-form").trigger("reset");
+   })
+ })
+
+
+//Add Subcategory Call modal
+
+    $(document).on('click', "#add-subcategory", function() {
+     $(this).addClass('add-subcategory-trigger'); //useful for identifying which trigger was clicked and consequently grab data from the correct row and not the wrong one.
+ 
+     var options = {
+       'backdrop': 'static'
+     };
+     $('#edit-modal-subcategory').modal(options)
+   })
+ 
+   // on modal show
+   $('#edit-modal-subcategory').on('show.bs.modal', function() {
+   
+     var el = $(".add-subcategory-trigger"); // See how its usefull right here? 
+     var row = el.closest(".data-row");
+    // alert(el.attr('class'));
+     // get the data
+     var id = el.data('add-id');
+     var name = row.children(".name").text();
+     name=name.replace(" ","");
+ 
+     // fill the data in the input fields
+     $("#modal-input-subcat-id").val(id);
+     $("#modal-subcat-name").val(name);
+ 
+  })
+ 
+   // on modal hide
+   $('#edit-modal-subcategory').on('hide.bs.modal', function() {
+     $('.add-subcategory-trigger').removeClass('add-subcategory-trigger')
+     $("#edit-form").trigger("reset");
+   })
+
+
+
+//Add Subcategory Modal end
+
+ $(document).ready(function() {
+   $(document).on('click', "#edit_banner", function() {
+     $(this).addClass('edit_banner_trigger'); //useful for identifying which trigger was clicked and consequently grab data from the correct row and not the wrong one.
+     var options = {
+       'backdrop': 'static'
+     };
+     $('#edit_banner_modal').modal(options)
+   })
+ 
+   // on modal show
+   $('#edit_banner_modal').on('show.bs.modal', function() {
+     var el = $(".edit_banner_trigger"); // See how its usefull right here? 
+     var row = el.closest(".data-row");
+     var id = el.data('item-id');
+     var url = row.children(".banner_url").text();
+     $("#banner_id").val(id);
+     $("#banner_url_edit").val(url);
+    
+ 
+   })
+   $('#edit_banner_modal').on('hide.bs.modal', function() {
+     $('.edit_banner_trigger').removeClass('edit_banner_trigger')
+     $("#edit-form").trigger("reset");
+   })
+ })
+
+
+
+
+ 
+ $(document).ready(function() {
+    $('#data').DataTable();
+} );
+$(document).ready(function() {
+    $('#brand-data').DataTable();
+} );
+$(document).ready(function() {
+    $('#user-data').DataTable();
+} );
+$(document).ready(function() {
+    $('#buying-data').DataTable();
+} );
+$(document).ready(function() {
+    $('#selling-data').DataTable();
+} );
+$(document).ready(function() {
+    $('#orders-data').DataTable();
+} );
+$(document).ready(function() {
+    $('#template-data').DataTable();
+} );
+           </script> 
+          
+          <script>
+            $('.usersatusbtn').on('click', function(){
+            var uid=$(this).data('uid');
+            var status = '';
+            if($(this).prop("checked") == true){
+               status = 'true';
+            }else{
+              status = 'false';
+            }
+            $.ajax({
+              type: 'POST',
+              url:'/admin/users/',
+              data: {uid:uid,status:status},
+              success: function (response) {
+            if(response){
+              $('#userAction').html('<div class="alert alert-success">User Status Changed successfully</div>');
+              location.reload().delay(10000);
+            }
+            }
+            });
+          })
+</script>
+<script>  
+        $(document).ready(function(){
+          $('.switch .bannerstatusbtn').on('change',function(){
+            banner_status = $('.switch .bannerstatusbtn').val();
+            var uid=$(this).data('uid');
+            var status = '';
+            if($(this).prop("checked") == true){
+               status = 'true';
+            }else{
+              status = 'false';
+            }
+            $.ajax({
+              type: 'POST',
+              url:'/admin/banner/',
+              data: {uid:uid,status:status},
+              success: function (response) {
+            if(response){
+              $('#bannerAction').html('<div class="alert alert-success">Banner Status Changed successfully</div>');
+              location.reload().delay(50000);
+            }
+            }
+            });
+          });
+        });
+
+
+          $('.bannerDelete').on('click', function(){
+            var uid=$(this).data('uid');
+            $.ajax({
+              type: 'POST',
+              url:'/admin/banner/delete/',
+              data: {uid:uid},
+              success: function (response) {
+            if(response){
+              $('#bannerDeleteAction').html('<div class="alert alert-danger">Banner Deleted successfully</div>');
+              location.reload().delay(1000000);
+            }
+            }
+            });
+          })
+            </script>
+
+<script src="/js/jquery.nestable.js"></script>
+
+
+<script>
+
+  $(document).ready(function()
+  {
+  
+      var updateOutput = function(e)
+      {
+          var list   = e.length ? e : $(e.target),
+              output = list.data('output');
+          if (window.JSON) {
+              output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
+          } else {
+              output.val('JSON browser support required for this demo.');
+          }
+      };
+  
+      // activate Nestable for list 1
+      $('#nestable').nestable({
+          group: 1
+      })
+      .on('change', updateOutput);
+  
+  
+  
+      // output initial serialised data
+      updateOutput($('#nestable').data('output', $('#nestable-output')));
+  
+      $('#nestable-menu').on('click', function(e)
+      {
+          var target = $(e.target),
+              action = target.data('action');
+          if (action === 'expand-all') {
+              $('.dd').nestable('expandAll');
+          }
+          if (action === 'collapse-all') {
+              $('.dd').nestable('collapseAll');
+          }
+      });
+  
+  
+  });
+  </script>
+  
+  <script>
+    $(document).ready(function(){
+      $("#load").hide();
+      $("#submit").click(function(){
+         $("#load").show();
+  
+         var dataString = { 
+                label : $("#label").val(),
+                link : $("#link").val(),
+                id : $("#id").val()
+              };
+  
+          $.ajax({
+              type: "POST",
+              url: "save_menu",
+              data: dataString,
+              dataType: "json",
+              cache : false,
+              success: function(data){
+                if(data.type == 'add'){
+                   $("#menu-id").append(data.menu);
+                } else if(data.type == 'edit'){
+                   $('#label_show'+data.id).html(data.label);
+                   $('#link_show'+data.id).html(data.link);
+                }
+                $('#label').val('');
+                $('#link').val('');
+                $('#id').val('');
+                $("#load").hide();
+              } ,error: function(xhr, status, error) {
+                alert(error);
+              },
+          });
+      });
+  
+      $('.dd').on('change', function() {
+          $("#load").show();
+       
+            var dataString = { 
+                data : $("#nestable-output").val(),
+              };
+  
+          $.ajax({
+              type: "POST",
+              url: "save.php",
+              data: dataString,
+              cache : false,
+              success: function(data){
+                $("#load").hide();
+              } ,error: function(xhr, status, error) {
+                alert(error);
+              },
+          });
+      });
+  
+      $("#save").click(function(){
+           $("#load").show();
+       
+            var dataString = { 
+                data : $("#nestable-output").val(),
+              };
+  
+          $.ajax({
+              type: "POST",
+              url: "save.php",
+              data: dataString,
+              cache : false,
+              success: function(data){
+                $("#load").hide();
+                alert('Data has been saved');
+            
+              } ,error: function(xhr, status, error) {
+                alert(error);
+              },
+          });
+      });
+  
+   
+      $(document).on("click",".del-button",function() {
+          var x = confirm('Delete this menu?');
+          var id = $(this).attr('id');
+          if(x){
+              $("#load").show();
+               $.ajax({
+                  type: "POST",
+                  url: "delete.php",
+                  data: { id : id },
+                  cache : false,
+                  success: function(data){
+                    $("#load").hide();
+                    $("li[data-id='" + id +"']").remove();
+                  } ,error: function(xhr, status, error) {
+                    alert(error);
+                  },
+              });
+          }
+      });
+  
+      $(document).on("click",".edit-button",function() {
+          var id = $(this).attr('id');
+          var label = $(this).attr('label');
+          var link = $(this).attr('link');
+          $("#id").val(id);
+          $("#label").val(label);
+          $("#link").val(link);
+      });
+  
+      $(document).on("click","#reset",function() {
+          $('#label').val('');
+          $('#link').val('');
+          $('#id').val('');
+      });
+  
+    });
+  
+  </script>
+

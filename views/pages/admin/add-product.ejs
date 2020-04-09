@@ -1,0 +1,120 @@
+    <div class="card">  
+        <div class="card-body">
+                <% include ../../partials/messages %>
+                <h3>Add New Product</h3>
+            <form class="forms-sample" method="post" action="/admin/add-product" enctype="multipart/form-data">
+                      <div class="panel panel-default">
+                          <div class="panel-body">
+                                  <div class="tab-content" id="v-pills-tabContent">
+                                    <!--General-->
+                                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                            <div class="form-group">  
+                                              <input type="text" id="product_name" class="form-control" name="product_name" placeholder="Product Name">                                  
+                                            </div>
+                                            <div class="form-group">
+                                                <select name="category_name" class="form-control category_name" required >
+                                                  <option value="">Select Category</option>
+                                                  <% for (var i = 0; i < category.length; i++) { %>
+                                                    <%if(category[i].name){%>
+                                                  <option value="<%=category[i].name%>"><%=category[i].name%></option>
+                                                  <%}%>
+                                                  <% }%>>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                               <select class="form-control" name="subcategory_name" id="subcategory" disabled>
+                                                <option value="">Select Sub-Category</option>
+                                               </select>
+                                            </div>
+                                            <div class="form-group">
+                                              <select name="brand_name" class="form-control" required >
+                                                <option value="">Select Brand</option>
+                                                <% for (var i = 0; i < brand.length; i++) { %>
+                                                <option value="<%=brand[i].name%>"><%=brand[i].name%></option>
+                                                <% }%>>
+                                              </select>
+                                          </div>
+                                            <div form-group>
+                                              <div class="email-order">
+                                                <p>Status</p>
+                                                  <label class="switch">
+                                                     <input type="checkbox" data-id="2" name="status" class="emailsettings" value="true">
+                                                     <!-- <input type="checkbox" data-id="2" name="status" class="emailsettings" value="false"> -->
+                                                     <span class="slider round"></span>
+                                                   </label>
+                                              </div>
+                                            </div>
+                                            <div form-group>
+                                              <div class="email-order">
+                                                <p>PriceTrigger</p>
+                                                  <label class="switch">
+                                                     <input type="checkbox" data-id="2" name="pricetrigger" class="emailsettings" value="true">
+                                                     <!-- <input type="checkbox" data-id="2" name="status" class="emailsettings" value="false"> -->
+                                                     <span class="slider round"></span>
+                                                   </label>
+                                              </div>
+                                            </div>
+                                          <div class="form-group">
+                                              <textarea name="product_description" class="form-control" rows="6" placeholder="Product Description" ></textarea> 
+                                          </div>
+                                          <div class="form-group">
+                                                <input type="text" id="product_price" class="form-control" name="product_price" placeholder="Product Regular Price">
+                                          </div>      
+                                          <div class="form-group">
+                                              <input type="text" id="product_sku" class="form-control" name="product_sku" placeholder="Product Sku">
+                                          </div>
+                                          <div class="form-group">
+                                            <input type="date" id="product_sku" class="form-control" name="releasedate" placeholder="Product Sku">
+                                        </div>
+                                        <div class="form-group">
+                                          <select name="condition" class="form-control" required >
+                                            <option value="">Select Condition</option>
+                                            <option value="new">New</option>
+                                            <option value="old">Old</option>
+                                        </select>
+                                      </div>
+                                      <div class="form-group">
+                                        <input type="text" id="style" class="form-control" name="style" placeholder="Style">
+                                      </div>
+                                      <div class="panel panel-default">
+                                        <div class="form-group">
+                                          <input type="text" class="form-control" id="Schoolname" name="attributename" value="" placeholder="Attribute Name">
+                                        </div> 
+                                          <div class="form-group">
+                                            <input type="text" id="productStyle" class="form-control" value="" name="attributevalues" placeholder="Attribute"> 
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="clear"></div>
+                                        </div>
+                                      </div> 
+                                      <div class="form-group">
+                                        <input type="file" id="productImage" class="form-control" name="productImage" placeholder="Product Image">
+                                    </div> 
+                                 </div>
+                                  
+                            <button type="submit" class="btn btn-success">Add New Product</button>
+                     </form>
+        </div>
+        </div>    
+        <script>
+          $(document).ready(function(){
+             $("select.category_name").change(function(){
+                var selectedCategory = $(this).children("option:selected").val();
+                $.ajax({
+                        url: '/admin/find_subcategory',
+                        method:'POST',
+                        data: {selectedCategory: selectedCategory},
+                        success:function(res){
+                          $('#subcategory').html('<option value=""> Select Sub-Category </option>');
+                          res.forEach((item) => {
+                            $('<option value="'+item+'"> '+item+'</option>').appendTo("#subcategory");
+                            $("#subcategory").attr("disabled", false);
+                          });
+                          
+                                             
+                      }
+                   });
+              }); 
+          });
+        </script> 

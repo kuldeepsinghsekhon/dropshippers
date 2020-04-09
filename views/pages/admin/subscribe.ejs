@@ -1,0 +1,14 @@
+
+    <div>
+    <h2 class="card-title">Subscriber Detals</h2>
+    </div>
+          <div class="table-responsive">
+            <table class="table table-striped">
+                <% for (var i = 0; i < subscriber.length; i++) { %>
+                <tr> 
+                    <td>Subscriber Email</td>
+                    <td><%= subscriber[i].email%></td> 
+                </tr>
+                <%}%>
+            </table>
+            </div>     

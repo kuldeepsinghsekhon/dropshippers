@@ -1,53 +1,67 @@
-require('isomorphic-fetch');
+const express = require('express');
+const expressLayouts = require('express-ejs-layouts');
+const session = require('express-session');
+const expressValidator = require('express-validator');
+var parser = require('body-parser');
+const fileUpload = require('express-fileupload');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const flash = require('connect-flash');
+const mongoStore = require('connect-mongo')(session);
 const dotenv = require('dotenv');
-const Koa = require('koa');
-const next = require('next');
-const { default: createShopifyAuth } = require('@shopify/koa-shopify-auth');
-const { verifyRequest } = require('@shopify/koa-shopify-auth');
-const session = require('koa-session');
-var router = require('koa-router');
+
 dotenv.config();
-const _ = router();              //Instantiate the router
+const app = express();
 
-const port = parseInt(process.env.PORT, 10) || 3000;
-const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
+app.use(fileUpload());
+const path = require('path');
+global.appRoot = path.resolve(__dirname);
+const nodemailer = require('nodemailer');
+require('./config/passport')(passport);
 
-const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY } = process.env;
-app.prepare().then(() => {
-    const server = new Koa();
-  server.use(session({ secure: true, sameSite: 'none' }, server));
-  server.keys = [SHOPIFY_API_SECRET_KEY];
-  var _ = router();              //Instantiate the router
-_.get('/hello', getMessage);   // Define routes
+const db = require('./config/keys').mongoURI;
 
-function *getMessage() {
-   this.body = "Hello world!";
-};
+mongoose
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
 
-server.use(_.routes());           //Use the routes defined using the router
-//app.listen(3000)
-  server.use(
-    createShopifyAuth({
-      apiKey: SHOPIFY_API_KEY,
-      secret: SHOPIFY_API_SECRET_KEY,
-      scopes: ['read_products'],
-      afterAuth(ctx) {
-        const { shop, accessToken } = ctx.session;
-
-        ctx.redirect('/');
-      },
-    })
-  );
-  server.use(verifyRequest());
-  server.use(async (ctx) => {
-    await handle(ctx.req, ctx.res);
-    ctx.respond = false;
-    ctx.res.body = "dfdsfs";
-    return
-  });
-  server.listen(port, () => {
-    console.log(`> Ready on http://localhost:${port}`);
-  });
+app.use(express.static(path.join(__dirname, 'public')))
+.set('views', path.join(__dirname, 'views'));
+app.use(expressLayouts);
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: false }));
+app.use(
+  session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    store:new mongoStore({mongooseConnection:mongoose.connection}),
+    cookie:{maxAge:180*60*1000}
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use(function(req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.session = req.session;
+  next();
 });
+
+// Routes
+app.use('/', require('./routes/index.js'));
+// app.use('/api', require('./routes/api.js'));
+// app.use('/user', require('./routes/user.js'));
+// app.use('/admin', require('./routes/admin.js'));
+
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, console.log(`Server started on port ${PORT}`));
+

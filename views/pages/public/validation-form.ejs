@@ -1,0 +1,38 @@
+<div class="page_wrapper">
+        <% include ../../partials/messages %>
+        <div id="logreg-forms">
+       <form action="#" method="POST" class="validation-form">
+           <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Validation Form</h1>
+           <input 
+           type="token"
+           id="token"
+           name="token"
+           class="form-control"
+           placeholder="Enter Validation Token"
+            required="" autofocus="">
+           <button class="btn btn-success btn-block" type="submit">Confirm Validation</button>
+           </form>  
+           <br>  
+         </div>  
+</div>
+<script>
+        $('.validation-form').on('submit',function(event){
+            event.preventDefault();
+           var token=$("#token").val(); 
+           var userid="<%=user._id%>";
+           var formdata = {token:token,userid:userid};
+           $.ajax({
+               method:'post',
+               url:"/validate",
+               dataType: "json",
+               data:formdata,
+               success: function (response) {
+                   if(response.status=='success'){
+                         $(location).attr('href', '/user/profile');  
+                   }else{
+                       alert(response.message);
+                   }
+               }
+           })
+       });
+        </script>

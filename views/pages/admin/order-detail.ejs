@@ -1,0 +1,165 @@
+<div class="row">
+        <div class="col-md-12 grid-margin">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h4 class="font-weight-bold mb-0">Product Templates Mangement</h4>
+                  </div>
+                  <!-- <div>
+                      <button type="button" class="btn btn-primary btn-icon-text btn-rounded">
+                        <i class="ti-clipboard btn-icon-prepend"></i>AddProduct</button>
+                  </div> -->
+                </div>
+        </div>
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card"> 
+             <div class="card-body">
+              <h4 class="card-title">Order Detail</h4>
+              <div class="table-responsive">
+              <table class="table table-striped">
+                <% if(order){ %>
+                  <% 
+                  let s = order.orderdate;
+                  let d = new Date(s); 
+                  d = d.toUTCString()
+                  %>
+                  <tr> <td>Product : <b><%= order.product.name %></b></td></tr>
+                  <tr> <td> Order Id :  <b><%= order._id %></b></td></tr>
+                  <tr> <td>  Order Date : <b><%= d %></b></td></tr>
+                  <tr> <td>  Bid Price : <b><%= order.buybid.bidprice %></b></td></tr>
+                  <!-- <tr> <td>  Attribute : <b><%= order.netprice %></b></td></tr> -->
+                  <tr> <td>  Price : <b><%= order.netprice %></b></td></tr>
+                  <tr> <td> Attribute : <b><%= order.buybid.attr_val %></b></td></tr>
+                  
+                  <tr> <td>  Transaction ID : <b><%= order.payment.transaction.id%></b></td></tr>
+                  <tr> <td>  Transaction Status : <b><%= order.payment.transaction.status%></b></td></tr>
+                    <% }else{ %>
+                      <tr> <td colspan="5" class="no-pis"><em>No Results.</em></td></tr>
+                      <% } %> 
+                </table>
+                </div>
+             </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card"> 
+             <div class="card-body">
+              <h4 class="card-title">Seller Address</h4>
+              <div class="table-responsive">
+              <table class="table table-striped">
+                <% if(order){ %>
+                  <% 
+                  let s = order.orderdate;
+                  let d = new Date(s); 
+                  d = d.toUTCString()
+                  %>
+                  <tr> <td>first Name : <b><%= order.seller.name %></b></td></tr>
+                  <tr> <td> Last Name :  <b><%= order.seller.lastname %></b></td></tr>
+                  <tr> <td> Emial :  <b><%= order.seller.email %></b></td></tr>
+                  <tr> <td>  Order Date : <b><%= d %></b></td></tr>
+                  <tr> <td>  Company : <b><%= sellerinfo.organisation_name %></b></td></tr>
+                  <tr> <td>  Street : <b><%= sellerinfo.address1 %></b></td></tr>
+                  <tr> <td>  Landmark : <b><%= sellerinfo.address2 %></b></td></tr>
+                  <tr> <td>  City: <b><%= sellerinfo.city %></b></td></tr>
+                  <tr> <td>  State: <b><%= sellerinfo.state %></b></td></tr>
+                  <tr> <td>  Countary: <b><%= sellerinfo.country %></b></td></tr>
+                  <tr> <td>  Transaction Status : <b><%= order.payment.transaction.status%></b></td></tr>
+                    <% }else{ %>
+                      <tr> <td colspan="5" class="no-pis"><em>No Results.</em></td></tr>
+                      <% } %> 
+                </table>
+                </div>
+             </div>
+          </div>
+        </div>
+
+
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card"> 
+             <div class="card-body">
+              <h4 class="card-title">Buyer Shipping Address</h4>
+              <div class="table-responsive">
+              <table class="table table-striped">
+                <% if(order){ %>
+                  <% 
+                  let s = order.orderdate;
+                  let d = new Date(s); 
+                  d = d.toUTCString()
+                  %>
+                  <tr> <td>first Name : <b><%= order.payment.transaction.shipping.firstName %></b></td></tr>
+                  <tr> <td> Last Name :  <b><%= order.payment.transaction.shipping.lastName %></b></td></tr>
+                  <tr> <td>  Order Date : <b><%= d %></b></td></tr>
+                  <tr> <td> Street :  <b><%= order.payment.transaction.shipping.streetAddress %></b></td></tr>
+                  <tr> <td>  Landmark : <b><%= order.payment.transaction.shipping.extendedAddress %></b></td></tr>
+                  <tr> <td>  City : <b><%= order.payment.transaction.shipping.locality %></b></td></tr>
+                  <tr> <td>  State: <b><%= order.payment.transaction.shipping.region %></b></td></tr>
+                  <tr> <td>  Countary: <b><%= order.payment.transaction.shipping.countryName %></b></td></tr>
+                  <tr> <td>  PostalCode : <b><%= order.payment.transaction.shipping.postalCode%></b></td></tr>
+                  <!-- <tr> <td>  PostalCode : <b><%= order.payment.transaction.shipping.postalCode%></b></td></tr> -->
+                    <% }else{ %>
+                      <tr> <td colspan="5" class="no-pis"><em>No Results.</em></td></tr>
+                      <% } %> 
+                </table>
+                </div>
+             </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card"> 
+             <div class="card-body">
+              <h4 class="card-title">Buyer Billing Address</h4>
+              <div class="table-responsive">
+              <table class="table table-striped">
+                <% if(order){ %>
+                  <% 
+                  let s = order.orderdate;
+                  let d = new Date(s); 
+                  d = d.toUTCString()
+                  %>
+                  <tr> <td>first Name : <b><%= order.payment.transaction.billing.firstName %></b></td></tr>
+                  <tr> <td> Last Name :  <b><%= order.payment.transaction.billing.lastName %></b></td></tr>
+                  <tr> <td>  Order Date : <b><%= d %></b></td></tr>
+                  <tr> <td> Street :  <b><%= order.payment.transaction.billing.streetAddress %></b></td></tr>
+                  <tr> <td>  Landmark : <b><%= order.payment.transaction.billing.extendedAddress %></b></td></tr>
+                  <tr> <td>  City : <b><%= order.payment.transaction.billing.locality %></b></td></tr>
+                  <tr> <td>  State: <b><%= order.payment.transaction.billing.region %></b></td></tr>
+                  <tr> <td>  Countary: <b><%= order.payment.transaction.billing.countryName %></b></td></tr>
+                  <tr> <td>  PostalCode : <b><%= order.payment.transaction.billing.postalCode%></b></td></tr>
+                  <!-- <tr> <td>  PostalCode : <b><%= order.payment.transaction.shipping.postalCode%></b></td></tr> -->
+                    <% }else{ %>
+                      <tr> <td colspan="5" class="no-pis"><em>No Results.</em></td></tr>
+                      <% } %> 
+                </table>
+                </div>
+             </div>
+          </div>
+        </div>
+</div>
+<script>
+  $(document).ready(function(){
+    var confirm_status = null;
+    confirm_status = $('#confirm_status').val();
+      $("select.action").change(function(){
+       // var success = (confirm('Are you sure want to change the status ????')) ? true : false; 
+        var id=$(this).data('id');
+          var SelectedAction = $(this).children("option:selected").val();
+          // alert("You have selected Action - " + SelectedAction);
+          var sendInfo = {status:SelectedAction};
+          $.ajax({
+					method:'post',
+					url:"/admin/update-order/"+id,
+					dataType: "json",
+					data:sendInfo,
+         	success: function (json_data) {
+				//	$("#processingFee").text('$'+json_data['order']);
+        console.log(json_data['message']);
+        $('#success_msg').html( '<div class="alert alert-success">'+json_data['message']+'.</div>');        
+
+				   },
+				   error:function(err){  //console.log(err);  
+				}	
+				});	
+      });
+  });
+  </script>

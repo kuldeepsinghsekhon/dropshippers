@@ -1,0 +1,110 @@
+<footer class="footer">
+    <div class="footer-middle">
+       <div class="container">
+          <div class="row">
+             <div class="col-lg-2 col-md-6">
+                <div class="widget">
+                   <h4 class="widget-title">My Account</h4>
+                   <ul class="links">
+                      <li><a href="/about">About Us</a></li>
+                      <li><a href="/contactus">Contact Us</a></li>
+                      <li><a href="/user/profile">My Account</a></li>
+                      <li><a href="/user/buying">Orders History</a></li>
+                      <li><a href="/search">Advanced Search</a></li>
+                      <% if(role=='User'){%>     
+                        <li><a href="/logout" class="login-link">logout</a></li> 
+                        <% }else{%>
+                           <li><a href="/sign-up" class="login-link">Sign-up</a></li>
+                           <%} %>         
+                     
+                   </ul>
+                </div>
+                <!-- End .widget -->
+             </div>
+             <!-- End .col-lg-2 -->
+             <div class="col-lg-3 col-md-6">
+                <div class="widget">
+                   <h4 class="widget-title">Main Features</h4>
+                   <ul class="links">
+                      <li><a href="#">Fast Delivery</a></li>
+                      <li><a href="#">Genuine Product</a></li>
+                      <li><a href="#">Unique Collection</a></li>
+                      <li><a href="#">Best Visual Of Product</a></li>
+                      <li><a href="#">360° View</a></li>
+                   </ul>
+                </div>
+                <!-- End .widget -->
+             </div>
+             <!-- End .col-lg-3 -->
+             <div class="col-lg-4 col-md-6">
+                <div class="widget widget-newsletter">
+                   <h4 class="widget-title">Subscribe newsletter</h4>
+                   <p>Get all the latest information on Events,Sales and Offers. Sign up for newsletter today</p>
+                   <form action="" class="form-email-signup" method="post" enctype="multipart/form-data">
+                      <input type="email" class="form-control" name="subscribe_email" id="subscribe_email" placeholder="Email address" required="">
+                      <button type="submit"  class="btn">Subscribe</button>
+                   </form>
+                </div>
+                <!-- End .widget -->
+             </div>
+             <!-- End .col-lg-5 -->
+             <div class="col-lg-3 col-md-6">
+                <div class="widget">
+                   <ul class="contact-info">
+                      <li>
+                         <span class="contact-info-label">Address:</span>123 Street Name, City, England
+                      </li>
+                      <li>
+                         <span class="contact-info-label">Phone:</span>Toll Free <a href="tel:">(123) 456-7890</a>
+                      </li>
+                      <li>
+                         <span class="contact-info-label">Email:</span> <a href="mailto:mail@example.com">mail@example.com</a>
+                      </li>
+                      <li>
+                         <span class="contact-info-label">Working Days/Hours:</span>
+                         Mon - Sun / 9:00AM - 8:00PM
+                      </li>
+                   </ul>
+                </div>
+                <!-- End .widget -->
+             </div>
+             <!-- End .col-lg-4 -->
+          </div>
+          <!-- End .row -->
+       </div>
+       <!-- End .container -->
+    </div>
+    <!-- End .footer-middle -->
+    <div class="container">
+       <div class="footer-bottom">
+          <p class="footer-copyright"> ©  2019.  All Rights Reserved</p>
+       </div>
+       <!-- End .footer-bottom -->
+    </div>
+    <!-- End .containr -->
+ </footer>
+ <script>
+   $('.form-email-signup').on('submit',function(event){
+       event.preventDefault();
+      //alert('dfsf')
+      var subscribe_email = $("#subscribe_email").val();
+      var formdata = {subscribe_email:subscribe_email};
+      $.ajax({
+          method:'post',
+          url:"admin/subscribe_email",
+          //dataType: "json",
+          data:formdata,
+          success: function (response) {
+              //console.log(response);
+              if(response.status=='success'){
+               alert(response.msg);
+               var url= '/';    
+                  //var url= '/validation-form/'+response.data.userid;                   
+                         $(location).attr('href', url);  
+              }else{
+                  alert(response.msg);
+              }
+          }
+      })
+  });
+   </script>
