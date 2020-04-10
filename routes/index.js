@@ -24,7 +24,12 @@ console.log(auth_url);
 res.redirect(auth_url);
 });
 router.get('/finish_auth',forwardAuthenticated,function(req,res,next){
-  var Shopify = new shopifyAPI(config), // You need to pass in your config here
+  var Shopify = new shopifyAPI({ shop: 'techardik.myshopify.com/', // MYSHOP.myshopify.com
+  shopify_api_key: SHOPIFY_API_KEY, // Your API key
+  shopify_shared_secret: SHOPIFY_API_SECRET_KEY, // Your Shared Secret
+  shopify_scope: 'write_products',
+  redirect_uri: HOST+'/finish_auth',
+  nonce: ''}), // You need to pass in your config here
     query_params = req.query;
     console.log(query_params);
   Shopify.exchange_temporary_token(query_params, function(err, data){
