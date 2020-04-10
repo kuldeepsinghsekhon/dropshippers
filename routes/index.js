@@ -5,6 +5,7 @@ const passport = require('passport');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 var shopifyAPI = require('shopify-node-api');
 var nonce = require('nonce')();
+const cookie = require('cookie');
 
 const {
   SHOPIFY_API_SECRET_KEY,
